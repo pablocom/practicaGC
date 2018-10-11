@@ -57,6 +57,16 @@ TPrimitiva::TPrimitiva(int DL, int t)
     sx = sy = sz = 1;
     rx = ry = rz = 0;
 	switch (tipo) {
+
+        case RASCACIELOS_ID: {
+
+            GLfloat colorRascacielos[1][4] = {0.2,0.5,0.7,1};
+            memcpy(colores, colorRascacielos, 4*sizeof(float));
+
+            modelo0= Load3DS("../../Modelos/rascacielos.3ds", &num_vertices0);
+            break;
+        }
+
 		case CARRETERA_ID: {  // Creación de la carretera
 		    tx = ty = tz = 0;
 
@@ -80,7 +90,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
 
             //************************ Cargar modelos 3ds ***********************************
             // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-            modelo0 = Load3DS("../../Modelos/rascacielos.3ds", &num_vertices0);
+            modelo0 = Load3DS("../../Modelos/FordF250.3ds", &num_vertices0);
             modelo1 = Load3DS("../../Modelos/RuedaFord.3ds", &num_vertices1);
             break;
 		}
@@ -92,6 +102,26 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
     glm::mat4   modelMatrix;
     glm::mat4   modelViewMatrix;
     switch (tipo) {
+
+        case RASCACIELOS_ID: {
+            if (escena.show_road) {
+                // Calculo de la ModelView
+                modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                modelViewMatrix = escena.viewMatrix * modelMatrix;
+                // Envia nuestra ModelView al Vertex Shader
+                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                // Pintar la carretera
+                glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                // Asociamos los vértices y sus normales
+                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+                glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+
+            }
+            break;
+        }
 
         case CARRETERA_ID: {
             if (escena.show_road) {

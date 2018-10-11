@@ -29,6 +29,7 @@
 
 // Identificadores internos de los objetos
 #define CARRETERA_ID    10
+#define RASCACIELOS_ID  11
 
 #define COCHE_ID	    100 // Un coche cada 100
 

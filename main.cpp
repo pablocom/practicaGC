@@ -170,6 +170,8 @@ int main(int argc, char* argv[])
     TPrimitiva *road = new TPrimitiva(CARRETERA_ID, CARRETERA_ID);
     TPrimitiva *car1 = new TPrimitiva(1, COCHE_ID);
     TPrimitiva *car2 = new TPrimitiva(2, COCHE_ID);
+    TPrimitiva *rascacielos = new TPrimitiva(RASCACIELOS_ID, RASCACIELOS_ID);
+
 
     car2->colores[0][0] = 0.3;
     car2->colores[0][1] = 0.8;
@@ -178,6 +180,7 @@ int main(int argc, char* argv[])
     car2->tx = 2;
     car2->tz = 3;
 
+    escena.AddObject(rascacielos);
     escena.AddObject(road);
     escena.AddCar(car1);
     escena.AddCar(car2);
