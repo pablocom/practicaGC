@@ -59,7 +59,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
 	switch (tipo) {
 
         case RASCACIELOS_ID: {
-
+            tx = ty = tz = 0;
             GLfloat colorRascacielos[1][4] = {0.2,0.5,0.7,1};
             memcpy(colores, colorRascacielos, 4*sizeof(float));
 
@@ -97,6 +97,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
 	} // switch
 }
 
+// RENDER DE LA PRIMITIVA
 void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
 {
     glm::mat4   modelMatrix;
@@ -106,7 +107,12 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
         case RASCACIELOS_ID: {
             if (escena.show_road) {
                 // Calculo de la ModelView
-                modelMatrix     = glm::mat4(1.0f); // matriz identidad
+                // modelMatrix     = glm::mat4(1.0f); // matriz identidad (calculo antiguo)
+                tx = -19;
+                modelMatrix  =  glm::mat4(1.0f); // matriz identidad
+                modelMatrix  =  glm::scale(modelMatrix,  glm::vec3(0.8,  0.8,  0.8)); // escalado
+                modelMatrix  =  glm::translate(modelMatrix,  glm::vec3(tx,  ty,  tz));
+
                 modelViewMatrix = escena.viewMatrix * modelMatrix;
                 // Envia nuestra ModelView al Vertex Shader
                 glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);

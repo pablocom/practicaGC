@@ -167,10 +167,10 @@ int main(int argc, char* argv[])
     GLUI_Master.set_glutIdleFunc( Idle );
 
     // Crea los objetos
-    TPrimitiva *road = new TPrimitiva(CARRETERA_ID, CARRETERA_ID);
+    TPrimitiva *road = new TPrimitiva(0, CARRETERA_ID);
     TPrimitiva *car1 = new TPrimitiva(1, COCHE_ID);
     TPrimitiva *car2 = new TPrimitiva(2, COCHE_ID);
-    TPrimitiva *rascacielos = new TPrimitiva(RASCACIELOS_ID, RASCACIELOS_ID);
+    TPrimitiva *rascacielos = new TPrimitiva(0, RASCACIELOS_ID);
 
 
     car2->colores[0][0] = 0.3;
