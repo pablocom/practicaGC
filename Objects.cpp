@@ -58,15 +58,36 @@ TPrimitiva::TPrimitiva(int DL, int t)
     rx = ry = rz = 0;
 	switch (tipo) {
 
+        case ARBOLES_ID: {
+            tx = ty = tz = 0;
+
+            GLfloat colorCarretera[1][4] = {0.05,0.8,0.05,1};
+            memcpy(colores, colorCarretera, 4*sizeof(float));
+
+            modelo0= Load3DS("../../Modelos/arboles.3ds", &num_vertices0);
+            break;
+        }
+
+        case CARRETERA_ID: {
+            tx = ty = tz = 0;
+
+            GLfloat colorCarretera[1][4] = {0.2,0.2,0.2,1};
+            memcpy(colores, colorCarretera, 4*sizeof(float));
+
+            modelo0= Load3DS("../../Modelos/carretera.3ds", &num_vertices0);
+            break;
+        }
+
         case RASCACIELOS_ID: {
             tx = ty = tz = 0;
+
             GLfloat colorRascacielos[1][4] = {0.2,0.5,0.7,1};
             memcpy(colores, colorRascacielos, 4*sizeof(float));
 
             modelo0= Load3DS("../../Modelos/rascacielos.3ds", &num_vertices0);
             break;
         }
-
+        /*
 		case CARRETERA_ID: {  // Creación de la carretera
 		    tx = ty = tz = 0;
 
@@ -79,6 +100,7 @@ TPrimitiva::TPrimitiva(int DL, int t)
 
             break;
 		}
+		*/
 		case COCHE_ID: { // Creación del coche
 
 		    tx = -2.0;
@@ -90,8 +112,8 @@ TPrimitiva::TPrimitiva(int DL, int t)
 
             //************************ Cargar modelos 3ds ***********************************
             // formato 8 floats por vértice (x, y, z, A, B, C, u, v)
-            modelo0 = Load3DS("../../Modelos/FordF250.3ds", &num_vertices0);
-            modelo1 = Load3DS("../../Modelos/RuedaFord.3ds", &num_vertices1);
+            modelo0 = Load3DS("../../Modelos/coche.3ds", &num_vertices0);
+            modelo1 = Load3DS("../../Modelos/rueda.3ds", &num_vertices1);
             break;
 		}
 	} // switch
@@ -104,11 +126,57 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
     glm::mat4   modelViewMatrix;
     switch (tipo) {
 
+        case ARBOLES_ID: {
+            if(escena.show_road) {
+                // Calculo de la ModelView
+                // modelMatrix     = glm::mat4(1.0f); // matriz identidad (calculo antiguo)
+                tx = 0;
+                modelMatrix  =  glm::mat4(1.0f); // matriz identidad
+                modelMatrix  =  glm::scale(modelMatrix,  glm::vec3(0.8,  0.8,  0.8)); // escalado
+                modelMatrix  =  glm::translate(modelMatrix,  glm::vec3(tx,  ty,  tz));
+
+                modelViewMatrix = escena.viewMatrix * modelMatrix;
+                // Envia nuestra ModelView al Vertex Shader
+                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                // Pintar la carretera
+                glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                // Asociamos los vértices y sus normales
+                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+                glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+            }
+        }
+
+        case CARRETERA_ID: {
+            if(escena.show_road) {
+                // Calculo de la ModelView
+                // modelMatrix     = glm::mat4(1.0f); // matriz identidad (calculo antiguo)
+                tx = 0;
+                modelMatrix  =  glm::mat4(1.0f); // matriz identidad
+                modelMatrix  =  glm::scale(modelMatrix,  glm::vec3(0.8,  0.8,  0.8)); // escalado
+                modelMatrix  =  glm::translate(modelMatrix,  glm::vec3(tx,  ty,  tz));
+
+                modelViewMatrix = escena.viewMatrix * modelMatrix;
+                // Envia nuestra ModelView al Vertex Shader
+                glUniformMatrix4fv(escena.uMVMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
+
+                // Pintar la carretera
+                glUniform4fv(escena.uColorLocation, 1, colores[0]);
+                // Asociamos los vértices y sus normales
+                glVertexAttribPointer(escena.aPositionLocation, POSITION_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0);
+                glVertexAttribPointer(escena.aNormalLocation, NORMAL_COMPONENT_COUNT, GL_FLOAT, false, STRIDE, modelo0+3);
+
+                glDrawArrays(GL_TRIANGLES, 0, num_vertices0);
+            }
+        }
+
         case RASCACIELOS_ID: {
             if (escena.show_road) {
                 // Calculo de la ModelView
                 // modelMatrix     = glm::mat4(1.0f); // matriz identidad (calculo antiguo)
-                tx = -19;
+                tx = 0;
                 modelMatrix  =  glm::mat4(1.0f); // matriz identidad
                 modelMatrix  =  glm::scale(modelMatrix,  glm::vec3(0.8,  0.8,  0.8)); // escalado
                 modelMatrix  =  glm::translate(modelMatrix,  glm::vec3(tx,  ty,  tz));
@@ -128,7 +196,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
             }
             break;
         }
-
+        /* ANTIGUA
         case CARRETERA_ID: {
             if (escena.show_road) {
                 // Cálculo de la ModelView
@@ -155,6 +223,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
             }
             break;
         }
+        */
         case COCHE_ID: {
             if (escena.show_car) {
                 glUniform4fv(escena.uColorLocation, 1, (const GLfloat *) colores[0]);
@@ -185,7 +254,7 @@ void __fastcall TPrimitiva::Render(int seleccion, bool reflejo)
                 // RUEDA Delantera Izquierda : Cálculo de la matriz modelo
                 modelMatrix     = glm::mat4(1.0f); // matriz identidad
 
-                modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx+0.95, ty+0.45, tz));
+                modelMatrix     = glm::translate(modelMatrix, glm::vec3(tx+2.95, ty+0.45, tz));
                 modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(rr), glm::vec3(1,0,0));      // en radianes
                 modelMatrix     = glm::rotate(modelMatrix, (float) glm::radians(180.0), glm::vec3(0,0,1));   // en radianes
 
