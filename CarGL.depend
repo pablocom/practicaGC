@@ -349,11 +349,11 @@
 	"Objects.h"
 	<GL\glui.h>
 
-1541584361 source:c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\main.cpp
+1544691114 source:c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\main.cpp
 	"Objects.h"
 	<GL\glui.h>
 
-1541584283 c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\objects.h
+1541591188 c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\objects.h
 	"Shader.h"
 	"Program.h"
 	<GL/glui.h>
@@ -378,7 +378,7 @@
 1445363315 source:c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\shader.cpp
 	"Shader.h"
 
-1541584373 source:c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\objects.cpp
+1544692078 source:c:\users\pablo\desktop\ua\5\gc\cargl.v2.1 (shaders)\practicagc\objects.cpp
 	"Objects.h"
 	<GL/glui.h>
 	"load3ds.c"

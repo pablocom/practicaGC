@@ -168,11 +168,14 @@ int main(int argc, char* argv[])
 
     // Crea los objetos
     // TPrimitiva *road = new TPrimitiva(0, CARRETERA_ID);
-    TPrimitiva *car1 = new TPrimitiva(1, COCHE_ID);
-    TPrimitiva *car2 = new TPrimitiva(2, COCHE_ID);
+    TPrimitiva *car1        = new TPrimitiva(1, COCHE_ID);
+    TPrimitiva *car2        = new TPrimitiva(2, COCHE_ID);
     TPrimitiva *rascacielos = new TPrimitiva(0, RASCACIELOS_ID);
-    TPrimitiva *carretera = new TPrimitiva(0, CARRETERA_ID);
-    TPrimitiva *arboles = new TPrimitiva(0, ARBOLES_ID);
+    TPrimitiva *carretera   = new TPrimitiva(0, CARRETERA_ID);
+    TPrimitiva *arboles     = new TPrimitiva(0, ARBOLES_ID);
+    TPrimitiva *casas       = new TPrimitiva(0, CASAS_ID);
+    TPrimitiva *farolas     = new TPrimitiva(0, FAROLAS_ID);
+    TPrimitiva *suelo       = new TPrimitiva(0, SUELO_ID);
 
     car2->colores[0][0] = 0.3;
     car2->colores[0][1] = 0.8;
@@ -181,12 +184,16 @@ int main(int argc, char* argv[])
     car2->tx = 2;
     car2->tz = 3;
 
+
+    escena.AddObject(arboles);
     escena.AddObject(carretera);
     escena.AddObject(rascacielos);
-    // escena.AddObject(road);
+    escena.AddObject(casas);
+    escena.AddObject(suelo);
+    escena.AddObject(road);
     escena.AddCar(car1);
     escena.AddCar(car2);
-    escena.AddObject(arboles);
+
 
     /**** Regular GLUT main loop ****/
     glutMainLoop();

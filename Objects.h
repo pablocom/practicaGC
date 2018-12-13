@@ -31,6 +31,9 @@
 #define CARRETERA_ID    10
 #define RASCACIELOS_ID  11
 #define ARBOLES_ID      12
+#define CASAS_ID        13
+#define FAROLAS_ID      14
+#define SUELO_ID        15
 
 
 #define COCHE_ID	    100 // Un coche cada 100
